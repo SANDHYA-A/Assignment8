@@ -1,0 +1,120 @@
+\documentclass[journal,12pt,twocolumn]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts,bm}
+\usepackage{mathtools}
+\usepackage{tkz-euclide} 
+\usepackage{tikz}
+\usetikzlibrary{calc,math}
+ \usepackage{caption}
+\usepackage{listings}
+\usepackage{gensymb}
+\let\vec\mathbf
+\numberwithin{equation}{subsection}
+
+\newcommand{\myvec}[1]{\ensuremath{\begin{pmatrix}#1\end{pmatrix}}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\mydet}[1]{\ensuremath{\begin{vmatrix}#1\end{vmatrix}}}
+
+\renewcommand\thesection{\arabic{section}}
+\renewcommand\thesubsection{\thesection.\arabic{subsection}}
+\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
+
+\renewcommand\thesectiondis{\arabic{section}}
+\renewcommand\thesubsectiondis{\thesectiondis.\arabic{subsection}}
+\renewcommand\thesubsubsectiondis{\thesubsectiondis.\arabic{subsubsection}}
+%\renewcommand{\theequation}{\theenumi}
+%\numberwithin{equation}{enumi}
+
+\providecommand{\mbf}{\mathbf}
+\providecommand{\pr}[1]{\ensuremath{\Pr\left(#1\right)}}
+\providecommand{\qfunc}[1]{\ensuremath{Q\left(#1\right)}}
+\providecommand{\sbrak}[1]{\ensuremath{{}\left[#1\right]}}
+\providecommand{\lsbrak}[1]{\ensuremath{{}\left[#1\right.}}
+\providecommand{\rsbrak}[1]{\ensuremath{{}\left.#1\right]}}
+\providecommand{\brak}[1]{\ensuremath{\left(#1\right)}}
+\providecommand{\lbrak}[1]{\ensuremath{\left(#1\right.}}
+\providecommand{\rbrak}[1]{\ensuremath{\left.#1\right)}}
+\providecommand{\cbrak}[1]{\ensuremath{\left\{#1\right\}}}
+\providecommand{\lcbrak}[1]{\ensuremath{\left\{#1\right.}}
+\providecommand{\rcbrak}[1]{\ensuremath{\left.#1\right\}}}
+
+\lstset{
+frame=single, 
+breaklines=true,
+columns=fullflexible
+}
+
+\begin{document}
+
+\title{Matrix Theory EE5609 - Assignment 8\\
+}
+
+\author{\IEEEauthorblockN{Sandhya Addetla}\\
+\IEEEauthorblockA{PhD Artificial Inteligence Department} \\
+AI20RESCH14001\\
+ }
+
+\maketitle
+\begin{abstract}
+Perform QR decomposition of a $3 \times 3$ matrix.
+\end{abstract}
+Download  python code from 
+\begin{lstlisting}
+https://github.com/SANDHYA-A/Assignment8
+\end{lstlisting}
+\section{Problem}
+Perform QR decomposition of the matrix
+\begin{align}
+   \vec{V} = \myvec{9&0&-6\\0&-4&0\\-6&0&1}  \label{1.1}
+\end{align}
+\section{Solution}
+Any matrix A can be converted in the form 
+\begin{align}
+    \vec{A} = \vec{Q}\vec{R}\label{2.1}
+\end{align}
+Here  $\vec{Q}$ is an orthogonal matrix and $\vec{R}$ is an upper triangular matrix. This is known as QR decomposition.
+
+For the given matrix at \ref{1.1}, column vectors are,
+\begin{align}
+    \vec{a}=\myvec{9\\0\\-6} \quad \vec{b}=\myvec{0\\-4\\0} \quad \vec{c}=\myvec{-6\\0\\1}\label{2.2}
+\end{align}
+Equation  \ref{2.1} can be written in $\vec{Q}\vec{R}$ form as:
+\begin{align}
+    \vec{Q}\vec{R} = \myvec{\vec{q_1}&\vec{q_2}&\vec{q_3} }\myvec{r_1&r_2&r_3\\0&r_4&r_5\\0&0&r_6}  \label{2.3}
+\end{align}
+Where,
+\begin{align}
+r_1 = \norm{\vec{a}} = \sqrt{9^2+(-6)^2} = \sqrt{117} \label{2.4}\\
+\vec{q_1} = \frac{\vec{a}}{r_1} = \myvec{\frac{9}{\sqrt{117}}\\0\\ \frac{-6}{\sqrt{117}}}
+\end{align}
+The value of $\vec{q_2}$ can be obtained as,
+\begin{align}
+r_2 = \vec{q_1}^T\vec{b}\\
+= \myvec{\frac{9}{\sqrt{117}}&0& \frac{-6}{\sqrt{117}}}\myvec{0\\-4\\0}=0\\
+r_4 = \norm{\vec{b}- r_2\vec{q_1}} = \sqrt{(-4)^2} = 4\\
+\vec{q_2} = \frac{ \vec{b}- r_2\vec{q_1}}{ \norm{\vec{b}- r_2\vec{q_1}}}\\	
+\vec{q_2} = \frac{1}{4}\myvec{0\\-4\\0} = \myvec{0\\-1\\0}
+\end{align}
+The value of $\vec{q_3}$ can be obtained as,
+\begin{align}
+r_3 = \vec{q_1}^T\vec{c}\\
+= \myvec{\frac{9}{\sqrt{117}}&0& \frac{-6}{\sqrt{117}}}\myvec{-6\\0\\1} = \frac{-60}{\sqrt{117}}\\
+r_5 = \vec{q_2}^T\vec{c}\\
+=\myvec{0&-1&0}\myvec{-6\\0\\1} = 0\\
+r_6 = \norm{\vec{c} - r_3  \vec{q_1} -r_5\vec{q_2}}\\
+=\norm{\myvec{-6\\0\\1}+ \frac{60}{\sqrt{117}}\myvec{\frac{9}{\sqrt{117}}\\0\\ \frac{-6}{\sqrt{117}}}}\\
+=\sqrt{\left(\frac{-18}{13}\right)^2 + \left(\frac{-27}{13}\right)^2 }=\frac{9}{\sqrt{13}}\\
+\vec{q_3} = \frac{\vec{c} - r_3  \vec{q_1} -r_5\vec{q_2}}{ \norm{\vec{c} - r_3  \vec{q_1} -r_5\vec{q_2}}}\\
+= \frac{\sqrt{13}}{9}\myvec{\frac{-18}{13}\\0\\ \frac{-27}{13}}= \myvec{\frac{-2}{\sqrt{13}}\\0\\ \frac{-3}{\sqrt{13}}} \label{2.20}
+\end{align}
+\\
+\\
+\\
+\\
+By substituting equation  \eqref{2.4} to  \eqref{2.20} in  \eqref{2.3},we obtain
+the QR Decomposition of the given matrix as:
+\begin{multline}
+    \myvec{9&0&-6\\0&-4&0\\-6&0&1}  \\= \myvec{\frac{9}{\sqrt{117}}&0& \frac{-2}{\sqrt{13}}\\0&-1&0\\ \frac{-6}{\sqrt{117}}&0&\frac{-3}{\sqrt{13}}}\myvec{\sqrt{117} &0&\frac{-60}{\sqrt{117}}\\0&4&0 \\0&0&\frac{9}{\sqrt{13}}}
+\end{multline}
+\end{document}
